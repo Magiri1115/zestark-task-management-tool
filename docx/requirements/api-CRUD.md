@@ -6,18 +6,17 @@
 | createTask | ○ |   |   |   |
 | getTasks   |   | ○ |   |   |
 | updateTask |   |   | ○ |   |
-| deleteTask |   |   |   | ○ |
-| lockTask   |   |   | ○ |   |
-| unlockTask |   |   | ○ |   |
-```
+| deleteTask |   |   |   | ○ | (論理削除) |
+| importJSON | ○ |   |   |   |
+| dumpDB     |   | ○ |   |   |
+
 ## API*ロール
-```
-| API        | admin | editor | viewer |
-| ---------- | ----- | ------ | ------ |
-| createTask | ○     | ○      | ×      |
-| getTasks   | ○     | ○      | ○      |
-| updateTask | ○     | ○      | ×      |
-| deleteTask | ○     | △     | ×      |
-| lockTask   | ○     | ○      | ×      |
-| unlockTask | ○     | ×      | ×      |
+| API        | admin | viewer |
+| ---------- | ----- | ------ |
+| createTask | ○     | ×      |
+| getTasks   | ○     | ○      |
+| updateTask | ○     | ×      |
+| deleteTask | ○     | ×      |
+| importJSON | ○     | ×      |
+| dumpDB     | ○     | ×      |
 ```
