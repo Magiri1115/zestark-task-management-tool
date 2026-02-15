@@ -1,4 +1,4 @@
-# API-CURDマトリックス
+# API-CRUDマトリックス
 ## API一覧
 ```
 | API        | C | R | U | D |
@@ -17,7 +17,7 @@
 | createTask | ○     | ○      | ×      |
 | getTasks   | ○     | ○      | ○      |
 | updateTask | ○     | ○      | ×      |
-| deleteTask | ○     | △      | ×      |
+| deleteTask | ○     | △     | ×      |
 | lockTask   | ○     | ○      | ×      |
 | unlockTask | ○     | ×      | ×      |
 ```
