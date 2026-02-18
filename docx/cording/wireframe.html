@@ -5,1013 +5,446 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>画面遷移ワイヤーフレーム（更新版）</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', 'Noto Sans JP', sans-serif;
-            background: #f5f5f5;
-            padding: 40px 20px;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            text-align: center;
-            color: #111827;
-            margin-bottom: 40px;
-            font-size: 32px;
-        }
-        
-        .screen-section {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .screen-title {
-            font-size: 24px;
-            color: #3b82f6;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .screen-id {
-            background: #e0f2fe;
-            color: #0369a1;
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        
-        .screen-description {
-            color: #6b7280;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-        
-        /* ログイン画面 */
-        .login-frame {
-            max-width: 500px;
-            margin: 0 auto;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 60px 40px;
-            background: #ffffff;
-        }
-        
-        .login-title {
-            text-align: center;
-            font-size: 28px;
-            color: #111827;
-            margin-bottom: 50px;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-label {
-            display: block;
-            color: #374151;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 16px;
-            background: #f9fafb;
-        }
-        
-        .btn-primary {
-            width: 100%;
-            padding: 14px;
-            background: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        
-        /* タスク一覧画面 */
-        .task-frame {
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            background: #ffffff;
-            min-height: 800px;
-        }
-        
-        .task-header {
-            background: #f9fafb;
-            padding: 20px 30px;
-            border-bottom: 2px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .task-header-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #111827;
-        }
-        
-        .task-header-actions {
-            display: flex;
-            gap: 12px;
-        }
-        
-        .btn-secondary {
-            padding: 10px 20px;
-            background: white;
-            border: 2px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        
-        .task-content {
-            padding: 30px;
-        }
-        
-        .stats-card {
-            background: #f9fafb;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stats-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .stat-item {
-            color: #6b7280;
-            font-size: 14px;
-        }
-        
-        .stat-value {
-            font-weight: 600;
-            color: #111827;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', 'Noto Sans JP', sans-serif; background: #f5f5f5; padding: 40px 20px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { text-align: center; color: #111827; margin-bottom: 40px; font-size: 32px; }
+        .screen-section { background: white; border-radius: 12px; padding: 30px; margin-bottom: 40px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .screen-title { font-size: 24px; color: #3b82f6; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .screen-id { background: #e0f2fe; color: #0369a1; padding: 4px 12px; border-radius: 6px; font-size: 14px; font-weight: 600; }
+        .screen-description { color: #6b7280; margin-bottom: 30px; font-size: 14px; }
+        .admin-only-badge { background: #fef3c7; color: #92400e; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; border: 1px solid #fcd34d; }
+
+        /* ログイン */
+        .login-frame { max-width: 500px; margin: 0 auto; border: 2px solid #e5e7eb; border-radius: 8px; padding: 60px 40px; background: #ffffff; }
+        .login-title { text-align: center; font-size: 28px; color: #111827; margin-bottom: 50px; }
+        .form-group { margin-bottom: 25px; }
+        .form-label { display: block; color: #374151; font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+        .form-input { width: 100%; padding: 12px 16px; border: 2px solid #d1d5db; border-radius: 6px; font-size: 16px; background: #f9fafb; }
+        .btn-primary { width: 100%; padding: 14px; background: #3b82f6; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+
+        /* タスク一覧 */
+        .task-frame { border: 2px solid #e5e7eb; border-radius: 8px; background: #ffffff; min-height: 800px; }
+        .task-header { background: #f9fafb; padding: 20px 30px; border-bottom: 2px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+        .task-header-title { font-size: 20px; font-weight: 600; color: #111827; }
+        .task-header-actions { display: flex; gap: 12px; align-items: center; }
+        .btn-secondary { padding: 10px 20px; background: white; border: 2px solid #d1d5db; border-radius: 6px; font-size: 14px; cursor: pointer; }
+        .btn-backup { padding: 10px 20px; background: white; border: 2px solid #fcd34d; border-radius: 6px; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 6px; color: #92400e; font-weight: 600; }
+        .task-content { padding: 30px; }
+        .stats-card { background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 30px; }
+        .stats-title { font-size: 16px; font-weight: 600; color: #374151; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .stat-item { color: #6b7280; font-size: 14px; }
+        .stat-value { font-weight: 600; color: #111827; }
+
         /* 円グラフ */
-        .chart-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 20px;
-        }
-        
-        .pie-chart {
-            position: relative;
-            width: 200px;
-            height: 200px;
-        }
-        
-        .pie-chart svg {
-            transform: rotate(-90deg);
-        }
-        
-        .pie-center-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-        
-        .pie-percentage {
-            font-size: 32px;
-            font-weight: 700;
-            color: #111827;
-        }
-        
-        .pie-label {
-            font-size: 13px;
-            color: #6b7280;
-            margin-top: 4px;
-        }
-        
-        .chart-legend {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .legend-color {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
-        }
-        
-        .legend-color-completed {
-            background: #10b981;
-        }
-        
-        .legend-color-progress {
-            background: #3b82f6;
-        }
-        
-        .legend-color-notstarted {
-            background: #e5e7eb;
-        }
-        
-        .legend-text {
-            color: #374151;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .legend-count {
-            color: #6b7280;
-            font-size: 13px;
-            margin-left: auto;
-        }
-        
-        .table-container {
-            margin-top: 30px;
-        }
-        
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            border: 2px solid #e5e7eb;
-        }
-        
-        .data-table thead {
-            background: #f9fafb;
-        }
-        
-        .data-table th {
-            padding: 12px 16px;
-            text-align: left;
-            font-size: 14px;
-            font-weight: 600;
-            color: #374151;
-            border-bottom: 2px solid #e5e7eb;
-        }
-        
-        .data-table td {
-            padding: 16px;
-            font-size: 14px;
-            color: #6b7280;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .data-table tbody tr:hover {
-            background: #f9fafb;
-            cursor: pointer;
-        }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .status-completed {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        
-        .status-progress {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-        
-        .status-notstarted {
-            background: #f3f4f6;
-            color: #4b5563;
-        }
-        
-        .effort-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .effort-light {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        
-        .effort-medium {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        
-        .effort-heavy {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        
-        .lock-indicator {
-            color: #6b7280;
-            font-size: 12px;
-        }
-        
+        .chart-container { display: flex; align-items: center; justify-content: center; gap: 40px; margin-top: 20px; }
+        .pie-chart { position: relative; width: 200px; height: 200px; }
+        .pie-chart svg { transform: rotate(-90deg); }
+        .pie-center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .pie-percentage { font-size: 32px; font-weight: 700; color: #111827; }
+        .pie-label { font-size: 13px; color: #6b7280; margin-top: 4px; }
+        .chart-legend { display: flex; flex-direction: column; gap: 12px; }
+        .legend-item { display: flex; align-items: center; gap: 10px; }
+        .legend-color { width: 20px; height: 20px; border-radius: 4px; }
+        .legend-color-completed { background: #10b981; }
+        .legend-color-progress { background: #3b82f6; }
+        .legend-color-notstarted { background: #e5e7eb; }
+        .legend-text { color: #374151; font-size: 14px; font-weight: 500; }
+        .legend-count { color: #6b7280; font-size: 13px; margin-left: auto; }
+
+        /* テーブル */
+        .table-container { margin-top: 30px; }
+        .data-table { width: 100%; border-collapse: collapse; border: 2px solid #e5e7eb; }
+        .data-table thead { background: #f9fafb; }
+        .data-table th { padding: 12px 16px; text-align: left; font-size: 14px; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+        .data-table td { padding: 14px 16px; font-size: 14px; color: #6b7280; border-bottom: 1px solid #e5e7eb; vertical-align: middle; }
+        .data-table tbody tr:hover { background: #f9fafb; }
+        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .status-completed { background: #d1fae5; color: #065f46; }
+        .status-progress { background: #dbeafe; color: #1e40af; }
+        .status-notstarted { background: #f3f4f6; color: #4b5563; }
+        .effort-badge { display: inline-block; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; }
+        .effort-light { background: #d1fae5; color: #065f46; }
+        .effort-medium { background: #fef3c7; color: #92400e; }
+        .effort-heavy { background: #fee2e2; color: #991b1b; }
+        .lock-indicator { color: #6b7280; font-size: 12px; }
+
+        /* 編集ボタン（テーブル内） */
+        .btn-edit-row { padding: 6px 14px; background: #eff6ff; color: #1d4ed8; border: 1.5px solid #bfdbfe; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+        .btn-edit-row:hover { background: #dbeafe; }
+
         /* モーダル */
-        .modal-overlay {
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 40px;
-            position: relative;
-        }
-        
-        .modal-frame {
-            max-width: 700px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 8px;
-            padding: 0;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .modal-header {
-            padding: 24px 30px;
-            border-bottom: 2px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #111827;
-        }
-        
-        .modal-close {
-            font-size: 24px;
-            color: #9ca3af;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-        }
-        
-        .modal-tabs {
-            display: flex;
-            gap: 8px;
-            padding: 0 30px;
-            margin-top: 20px;
-            border-bottom: 2px solid #e5e7eb;
-        }
-        
-        .modal-tab {
-            padding: 12px 20px;
-            background: none;
-            border: none;
-            border-bottom: 3px solid transparent;
-            font-size: 14px;
-            font-weight: 600;
-            color: #6b7280;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: -2px;
-        }
-        
-        .modal-tab:hover {
-            color: #374151;
-        }
-        
-        .modal-tab.active {
-            color: #3b82f6;
-            border-bottom-color: #3b82f6;
-        }
-        
-        .modal-body {
-            padding: 30px;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .form-readonly {
-            background: #f3f4f6;
-            color: #6b7280;
-            cursor: not-allowed;
-        }
-        
-        .form-select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 16px;
-            background: white;
-            cursor: pointer;
-        }
-        
-        .form-textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 14px;
-            min-height: 120px;
-            resize: vertical;
-            font-family: 'Inter', 'Noto Sans JP', sans-serif;
-        }
-        
-        .form-textarea-code {
-            font-family: 'Monaco', 'Courier New', monospace;
-            font-size: 13px;
-            background: #1e1e1e;
-            color: #d4d4d4;
-            min-height: 350px;
-            border-color: #374151;
-        }
-        
-        .radio-group {
-            display: flex;
-            gap: 20px;
-            margin-top: 8px;
-        }
-        
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .radio-input {
-            width: 18px;
-            height: 18px;
-        }
-        
-        .radio-label {
-            font-size: 14px;
-            color: #374151;
-        }
-        
-        .modal-footer {
-            padding: 20px 30px;
-            border-top: 2px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .modal-footer-left {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-        
-        .modal-footer-right {
-            display: flex;
-            gap: 12px;
-        }
-        
-        .btn-cancel {
-            padding: 10px 24px;
-            background: white;
-            border: 2px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        .btn-save {
-            padding: 10px 24px;
-            background: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        .btn-import {
-            padding: 10px 24px;
-            background: #10b981;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        .btn-validate {
-            padding: 10px 24px;
-            background: #f59e0b;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        .required {
-            color: #ef4444;
-            margin-left: 4px;
-        }
-        
-        .help-text {
-            font-size: 12px;
-            color: #6b7280;
-            margin-top: 6px;
-            line-height: 1.5;
-        }
-        
-        .code-example {
-            background: #f3f4f6;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            padding: 12px;
-            margin-top: 10px;
-            font-family: 'Monaco', 'Courier New', monospace;
-            font-size: 12px;
-            color: #374151;
-            overflow-x: auto;
-        }
-        
-        .json-info {
-            background: #fffbeb;
-            border: 1px solid #fcd34d;
-            border-radius: 6px;
-            padding: 12px;
-            margin-bottom: 15px;
-            font-size: 13px;
-            color: #92400e;
-        }
-        
-        .json-info strong {
-            display: block;
-            margin-bottom: 6px;
-        }
-        
+        .modal-overlay { background: rgba(0,0,0,0.5); border: 2px solid #e5e7eb; border-radius: 8px; padding: 40px; position: relative; }
+        .modal-frame { max-width: 700px; margin: 0 auto; background: white; border-radius: 8px; padding: 0; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .modal-header { padding: 24px 30px; border-bottom: 2px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+        .modal-title { font-size: 20px; font-weight: 600; color: #111827; }
+        .modal-close { font-size: 24px; color: #9ca3af; cursor: pointer; background: none; border: none; padding: 0; width: 30px; height: 30px; }
+        .modal-tabs { display: flex; gap: 8px; padding: 0 30px; margin-top: 20px; border-bottom: 2px solid #e5e7eb; }
+        .modal-tab { padding: 12px 20px; background: none; border: none; border-bottom: 3px solid transparent; font-size: 14px; font-weight: 600; color: #6b7280; cursor: pointer; margin-bottom: -2px; }
+        .modal-tab.active { color: #3b82f6; border-bottom-color: #3b82f6; }
+        .modal-body { padding: 30px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .form-readonly { background: #f3f4f6; color: #6b7280; cursor: not-allowed; }
+        .form-select { width: 100%; padding: 12px 16px; border: 2px solid #d1d5db; border-radius: 6px; font-size: 16px; background: white; cursor: pointer; }
+        .form-textarea { width: 100%; padding: 12px 16px; border: 2px solid #d1d5db; border-radius: 6px; font-size: 14px; min-height: 120px; resize: vertical; font-family: 'Inter','Noto Sans JP',sans-serif; }
+        .form-textarea-code { font-family: 'Monaco','Courier New',monospace; font-size: 13px; background: #1e1e1e; color: #d4d4d4; min-height: 350px; border-color: #374151; }
+        .radio-group { display: flex; gap: 20px; margin-top: 8px; }
+        .radio-option { display: flex; align-items: center; gap: 8px; }
+        .radio-input { width: 18px; height: 18px; }
+        .radio-label { font-size: 14px; color: #374151; }
+        .modal-footer { padding: 20px 30px; border-top: 2px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .modal-footer-left { display: flex; gap: 12px; align-items: center; }
+        .modal-footer-right { display: flex; gap: 12px; }
+        .btn-cancel { padding: 10px 24px; background: white; border: 2px solid #d1d5db; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
+        .btn-save { padding: 10px 24px; background: #3b82f6; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
+        .btn-validate { padding: 10px 24px; background: #f59e0b; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
+
+        /* 削除ボタン */
+        .btn-delete { padding: 10px 24px; background: white; color: #dc2626; border: 2px solid #fca5a5; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
+        .btn-delete:hover { background: #fee2e2; }
+
+        .required { color: #ef4444; margin-left: 4px; }
+        .help-text { font-size: 12px; color: #6b7280; margin-top: 6px; line-height: 1.5; }
+        .code-example { background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 6px; padding: 12px; margin-top: 10px; font-family: 'Monaco','Courier New',monospace; font-size: 12px; color: #374151; overflow-x: auto; }
+        .json-info { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; padding: 12px; margin-bottom: 15px; font-size: 13px; color: #92400e; }
+        .json-info strong { display: block; margin-bottom: 6px; }
+
         /* フロー図 */
-        .flow-diagram {
-            background: #f9fafb;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 40px;
-            margin: 30px 0;
-        }
-        
-        .flow-box {
-            background: white;
-            border: 2px solid #3b82f6;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            margin: 20px auto;
-            max-width: 300px;
-            font-weight: 600;
-            color: #1e40af;
-        }
-        
-        .flow-arrow {
-            text-align: center;
-            color: #6b7280;
-            font-size: 24px;
-            margin: 10px 0;
-        }
-        
-        .flow-condition {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin: 20px 0;
-        }
-        
-        .flow-branch {
-            text-align: center;
-        }
-        
-        .flow-label {
-            color: #6b7280;
-            font-size: 14px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        
+        .flow-diagram { background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 8px; padding: 40px; margin: 30px 0; }
+        .flow-box { background: white; border: 2px solid #3b82f6; border-radius: 8px; padding: 20px; text-align: center; margin: 20px auto; max-width: 300px; font-weight: 600; color: #1e40af; }
+        .flow-arrow { text-align: center; color: #6b7280; font-size: 24px; margin: 10px 0; }
+        .flow-condition { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0; }
+        .flow-branch { text-align: center; }
+        .flow-label { color: #6b7280; font-size: 14px; margin-bottom: 10px; font-weight: 600; }
+
         /* 注釈ボックス */
-        .info-box {
-            background: #f0f9ff;
-            border-left: 4px solid #3b82f6;
-            padding: 20px;
-            margin-top: 30px;
-            border-radius: 4px;
-        }
-        
-        .info-box strong {
-            display: block;
-            margin-bottom: 10px;
-            color: #1e40af;
-        }
-        
-        .info-box ul {
-            margin: 10px 0 0 20px;
-            color: #374151;
-        }
-        
-        .info-box li {
-            margin: 6px 0;
-            line-height: 1.6;
-        }
+        .info-box { background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 20px; margin-top: 30px; border-radius: 4px; }
+        .info-box strong { display: block; margin-bottom: 10px; color: #1e40af; }
+        .info-box ul, .info-box ol { margin: 10px 0 0 20px; color: #374151; }
+        .info-box li { margin: 6px 0; line-height: 1.6; }
+
+        /* バックアップモーダル */
+        .backup-modal-overlay { background: rgba(0,0,0,0.5); border: 2px solid #e5e7eb; border-radius: 8px; padding: 40px; }
+        .backup-modal-frame { max-width: 600px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .backup-modal-body { padding: 24px 30px 30px; }
+        .backup-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #f3f4f6; gap: 16px; }
+        .backup-item:last-of-type { border-bottom: none; }
+        .backup-item-info { flex: 1; }
+        .backup-item-label { font-size: 14px; font-weight: 600; color: #111827; }
+        .backup-item-desc { font-size: 12px; color: #6b7280; margin-top: 4px; }
+        .btn-download { padding: 8px 16px; background: #f0fdf4; color: #16a34a; border: 1.5px solid #86efac; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+        .divider { border: none; border-top: 2px solid #e5e7eb; margin: 16px 0; }
+        .backup-note { font-size: 12px; color: #6b7280; line-height: 1.8; background: #f9fafb; border-radius: 6px; padding: 12px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎨 画面遷移ワイヤーフレーム図（更新版）</h1>
-        
-        <!-- 画面遷移フロー -->
-        <div class="screen-section">
-            <div class="screen-title">
-                📊 画面遷移フロー全体図
+<div class="container">
+    <h1>🎨 画面遷移ワイヤーフレーム図（更新版）</h1>
+
+    <!-- 画面遷移フロー全体図 -->
+    <div class="screen-section">
+        <div class="screen-title">📊 画面遷移フロー全体図</div>
+        <p class="screen-description">システム全体の画面遷移の流れ（並列構造）</p>
+        <div class="flow-diagram">
+            <div class="flow-box">アクセス開始</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-box" style="background:#fef3c7;border-color:#f59e0b;">
+                <div style="color:#92400e;">【認証チェック】</div>
             </div>
-            <p class="screen-description">システム全体の画面遷移の流れ（並列構造）</p>
-            
-            <div class="flow-diagram">
-                <div class="flow-box">アクセス開始</div>
-                <div class="flow-arrow">↓</div>
-                <div class="flow-box" style="background: #fef3c7; border-color: #f59e0b;">
-                    <div style="color: #92400e;">【認証チェック】</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-condition">
+                <div class="flow-branch">
+                    <div class="flow-label">❌ 未認証の場合</div>
+                    <div class="flow-box">AUTH-01<br>ログイン画面</div>
+                    <div class="flow-arrow">↓<br>ログイン成功</div>
+                    <div class="flow-box">TASK-01<br>タスク一覧へ遷移</div>
                 </div>
-                <div class="flow-arrow">↓</div>
-                
-                <div class="flow-condition">
-                    <div class="flow-branch">
-                        <div class="flow-label">❌ 未認証の場合</div>
-                        <div class="flow-box">AUTH-01<br>ログイン画面</div>
-                        <div class="flow-arrow">↓<br>ログイン成功</div>
-                        <div class="flow-box">TASK-01<br>タスク一覧へ遷移</div>
-                    </div>
-                    <div class="flow-branch">
-                        <div class="flow-label">✅ 認証済みの場合</div>
-                        <div class="flow-box">TASK-01<br>タスク一覧<br>（直接表示）</div>
-                    </div>
+                <div class="flow-branch">
+                    <div class="flow-label">✅ 認証済みの場合</div>
+                    <div class="flow-box">TASK-01<br>タスク一覧<br>（直接表示）</div>
                 </div>
-                
-                <div class="flow-arrow">↓</div>
-                <div class="flow-box">TASK-01 タスク一覧画面</div>
-                <div class="flow-arrow">↓<br>行ダブルクリック<br>(admin/editor)</div>
-                <div class="flow-box">TASK-02<br>編集モーダル<br>（フォーム入力 or JSON一括入力）</div>
-                <div class="flow-arrow">↓<br>保存 / キャンセル</div>
-                <div class="flow-box">TASK-01<br>一覧に戻る</div>
             </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-box">TASK-01 タスク一覧画面</div>
+            <div class="flow-arrow">↓<br>行の「編集」ボタンクリック<br>(admin/editor)</div>
+            <div class="flow-box">TASK-02<br>編集モーダル<br>（フォーム入力 or JSON一括入力）</div>
+            <div class="flow-arrow">↓<br>保存 / 削除 / キャンセル</div>
+            <div class="flow-box">TASK-01<br>一覧に戻る</div>
         </div>
-        
-        <!-- AUTH-01: ログイン画面 -->
-        <div class="screen-section">
-            <div class="screen-title">
-                <span class="screen-id">AUTH-01</span>
-                ログイン画面
-            </div>
-            <p class="screen-description">パス: /login | 認証: 不要 | ロール制限: なし</p>
-            
-            <div class="login-frame">
-                <div class="login-title">タスク管理システム</div>
-                
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="text" class="form-input" placeholder="email@example.com">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-input" placeholder="••••••••">
-                </div>
-                
-                <button class="btn-primary">ログイン</button>
-            </div>
-            
-            <div class="info-box">
-                <strong>機能要件:</strong>
-                <ul>
-                    <li>Email: 必須、メール形式</li>
-                    <li>Password: 必須、6文字以上</li>
-                    <li>ログイン成功 → /tasks へ遷移</li>
-                    <li>ログイン失敗 → エラーメッセージ表示</li>
-                    <li>認証済みユーザーは自動的に /tasks へリダイレクト</li>
-                </ul>
-            </div>
+    </div>
+
+    <!-- AUTH-01: ログイン画面 -->
+    <div class="screen-section">
+        <div class="screen-title">
+            <span class="screen-id">AUTH-01</span>
+            ログイン画面
         </div>
-        
-        <!-- TASK-01: タスク一覧画面 -->
-        <div class="screen-section">
-            <div class="screen-title">
-                <span class="screen-id">TASK-01</span>
-                タスク一覧画面
+        <p class="screen-description">パス: /login | 認証: 不要 | ロール制限: なし</p>
+        <div class="login-frame">
+            <div class="login-title">タスク管理システム</div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="text" class="form-input" placeholder="email@example.com">
             </div>
-            <p class="screen-description">パス: /tasks | 認証: 必須 | ロール制限: 全ロール</p>
-            
-            <div class="task-frame">
-                <div class="task-header">
-                    <div class="task-header-title">タスク管理システム</div>
-                    <div class="task-header-actions">
-                        <button class="btn-backup">
-                        🗄️ DBバックアップ
-                        <span class="admin-only-badge">admin</span>
-                    </button>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" placeholder="••••••••">
+            </div>
+            <button class="btn-primary">ログイン</button>
+        </div>
+        <div class="info-box">
+            <strong>機能要件:</strong>
+            <ul>
+                <li>Email: 必須、メール形式</li>
+                <li>Password: 必須、6文字以上</li>
+                <li>ログイン成功 → /tasks へ遷移</li>
+                <li>ログイン失敗 → エラーメッセージ表示</li>
+                <li>認証済みユーザーは自動的に /tasks へリダイレクト</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- TASK-01: タスク一覧画面 -->
+    <div class="screen-section">
+        <div class="screen-title">
+            <span class="screen-id">TASK-01</span>
+            タスク一覧画面
+        </div>
+        <p class="screen-description">パス: /tasks | 認証: 必須 | ロール制限: 全ロール</p>
+
+        <div class="task-frame">
+            <div class="task-header">
+                <div class="task-header-title">タスク管理システム</div>
+                <div class="task-header-actions">
+                    <button class="btn-backup">🗄️ DBバックアップ <span class="admin-only-badge">admin</span></button>
                     <button class="btn-secondary">ログアウト</button>
-                        <button class="btn-secondary">📥 Excel出力</button>
-                    </div>
-                </div>
-                
-                <div class="task-content">
-                    <!-- プロジェクト概要 -->
-                    <div class="stats-card">
-                        <div class="stats-title">📊 プロジェクト概要</div>
-                        <div class="stats-grid">
-                            <div class="stat-item">総タスク数: <span class="stat-value">15件</span></div>
-                            <div class="stat-item">完了: <span class="stat-value">5件</span></div>
-                            <div class="stat-item">未着手: <span class="stat-value">7件</span></div>
-                            <div class="stat-item">進行中: <span class="stat-value">3件</span></div>
-                            <div class="stat-item">総工数: <span class="stat-value">120.5時間</span></div>
-                            <div class="stat-item">完了率: <span class="stat-value">33.3%</span></div>
-                        </div>
-                    </div>
-                    
-                    <!-- 完了率グラフ -->
-                    <div class="stats-card">
-                        <div class="stats-title">📈 完了率</div>
-                        <div class="chart-container">
-                            <!-- 円グラフ -->
-                            <div class="pie-chart">
-                                <svg width="200" height="200" viewBox="0 0 200 200">
-                                    <!-- 背景円 -->
-                                    <circle cx="100" cy="100" r="80" fill="none" stroke="#f3f4f6" stroke-width="40"/>
-                                    
-                                    <!-- 未着手 (46.7% = 7/15) グレー -->
-                                    <circle cx="100" cy="100" r="80" fill="none" 
-                                            stroke="#e5e7eb" stroke-width="40"
-                                            stroke-dasharray="234.5 502.4"
-                                            stroke-dashoffset="0"/>
-                                    
-                                    <!-- 進行中 (20% = 3/15) ブルー -->
-                                    <circle cx="100" cy="100" r="80" fill="none" 
-                                            stroke="#3b82f6" stroke-width="40"
-                                            stroke-dasharray="100.5 502.4"
-                                            stroke-dashoffset="-234.5"/>
-                                    
-                                    <!-- 完了 (33.3% = 5/15) グリーン -->
-                                    <circle cx="100" cy="100" r="80" fill="none" 
-                                            stroke="#10b981" stroke-width="40"
-                                            stroke-dasharray="167.4 502.4"
-                                            stroke-dashoffset="-335"/>
-                                </svg>
-                                <div class="pie-center-text">
-                                    <div class="pie-percentage">33.3%</div>
-                                    <div class="pie-label">完了率</div>
-                                </div>
-                            </div>
-                            
-                            <!-- 凡例 -->
-                            <div class="chart-legend">
-                                <div class="legend-item">
-                                    <div class="legend-color legend-color-completed"></div>
-                                    <div class="legend-text">完了</div>
-                                    <div class="legend-count">5件 (33.3%)</div>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color legend-color-progress"></div>
-                                    <div class="legend-text">進行中</div>
-                                    <div class="legend-count">3件 (20.0%)</div>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color legend-color-notstarted"></div>
-                                    <div class="legend-text">未着手</div>
-                                    <div class="legend-count">7件 (46.7%)</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- タスク一覧テーブル -->
-                    <div class="table-container">
-                        <div class="stats-title" style="margin-bottom: 15px;">📋 タスク一覧</div>
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>コード</th>
-                                    <th>タスク名</th>
-                                    <th>状態</th>
-                                    <th>フェーズ</th>
-                                    <th>工数</th>
-                                    <th>レベル</th>
-                                    <th>ロック</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>T1-01</td>
-                                    <td>要件定義</td>
-                                    <td><span class="status-badge status-completed">完了</span></td>
-                                    <td>第1段階</td>
-                                    <td>8h</td>
-                                    <td><span class="effort-badge effort-medium">中</span></td>
-                                    <td>-</td>
-                                </tr>
-                                <tr>
-                                    <td>T1-02</td>
-                                    <td>DB設計</td>
-                                    <td><span class="status-badge status-progress">進行中</span></td>
-                                    <td>第1段階</td>
-                                    <td>16h</td>
-                                    <td><span class="effort-badge effort-heavy">重</span></td>
-                                    <td><span class="lock-indicator">🔒 田中太郎</span></td>
-                                </tr>
-                                <tr>
-                                    <td>T2-01</td>
-                                    <td>UI実装</td>
-                                    <td><span class="status-badge status-notstarted">未着手</span></td>
-                                    <td>第2段階</td>
-                                    <td>24h</td>
-                                    <td><span class="effort-badge effort-heavy">重</span></td>
-                                    <td>-</td>
-                                </tr>
-                                <tr>
-                                    <td>T2-02</td>
-                                    <td>API開発</td>
-                                    <td><span class="status-badge status-notstarted">未着手</span></td>
-                                    <td>第2段階</td>
-                                    <td>20h</td>
-                                    <td><span class="effort-badge effort-heavy">重</span></td>
-                                    <td>-</td>
-                                </tr>
-                                <tr>
-                                    <td>T3-01</td>
-                                    <td>テスト計画</td>
-                                    <td><span class="status-badge status-notstarted">未着手</span></td>
-                                    <td>第3段階</td>
-                                    <td>12h</td>
-                                    <td><span class="effort-badge effort-medium">中</span></td>
-                                    <td>-</td>
-                                </tr>
-                                    <td><code>/tasks?backup=true</code></td>
-                                    <td>TASK-03</td>
-                                    <td>必須</td>
-                                    <td>バックアップモーダル（adminのみ、URL共有不可）</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <button class="btn-secondary">📥 Excel出力</button>
                 </div>
             </div>
-            
-            <div class="info-box">
-                <strong>機能要件:</strong>
-                <ul>
-                    <li>全タスクをリアルタイムで表示</li>
-                    <li>タスク行ダブルクリック → 編集モーダル表示（admin/editorのみ）</li>
-                    <li>Excel出力ボタン → タスク一覧をExcel形式でダウンロード</li>
-                    <li>ロック状態の表示: 🔒アイコン + ユーザー名</li>
-                    <li>ソート・フィルター機能（コード、タスク名、状態、フェーズでフィルター可能）</li>
-                    <li>統計情報の自動算出とリアルタイム更新</li>
-                    <li>円グラフでステータス別の完了率を可視化（Recharts使用）</li>
-                </ul>
+
+            <div class="task-content">
+                <!-- プロジェクト概要 -->
+                <div class="stats-card">
+                    <div class="stats-title">📊 プロジェクト概要</div>
+                    <div class="stats-grid">
+                        <div class="stat-item">総タスク数: <span class="stat-value">15件</span></div>
+                        <div class="stat-item">完了: <span class="stat-value">5件</span></div>
+                        <div class="stat-item">未着手: <span class="stat-value">7件</span></div>
+                        <div class="stat-item">進行中: <span class="stat-value">3件</span></div>
+                        <div class="stat-item">総工数: <span class="stat-value">120.5時間</span></div>
+                        <div class="stat-item">完了率: <span class="stat-value">33.3%</span></div>
+                    </div>
+                </div>
+
+                <!-- 完了率グラフ -->
+                <div class="stats-card">
+                    <div class="stats-title">📈 完了率</div>
+                    <div class="chart-container">
+                        <div class="pie-chart">
+                            <svg width="200" height="200" viewBox="0 0 200 200">
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#f3f4f6" stroke-width="40"/>
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#e5e7eb" stroke-width="40" stroke-dasharray="234.5 502.4" stroke-dashoffset="0"/>
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#3b82f6" stroke-width="40" stroke-dasharray="100.5 502.4" stroke-dashoffset="-234.5"/>
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#10b981" stroke-width="40" stroke-dasharray="167.4 502.4" stroke-dashoffset="-335"/>
+                            </svg>
+                            <div class="pie-center-text">
+                                <div class="pie-percentage">33.3%</div>
+                                <div class="pie-label">完了率</div>
+                            </div>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-completed"></div>
+                                <div class="legend-text">完了</div>
+                                <div class="legend-count">5件 (33.3%)</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-progress"></div>
+                                <div class="legend-text">進行中</div>
+                                <div class="legend-count">3件 (20.0%)</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-notstarted"></div>
+                                <div class="legend-text">未着手</div>
+                                <div class="legend-count">7件 (46.7%)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- タスク一覧テーブル -->
+                <div class="table-container">
+                    <div class="stats-title" style="margin-bottom:15px;">📋 タスク一覧</div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>コード</th>
+                                <th>タスク名</th>
+                                <th>状態</th>
+                                <th>フェーズ</th>
+                                <th>工数</th>
+                                <th>レベル</th>
+                                <th>ロック</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>T1-01</td>
+                                <td>要件定義</td>
+                                <td><span class="status-badge status-completed">完了</span></td>
+                                <td>第1段階</td>
+                                <td>8h</td>
+                                <td><span class="effort-badge effort-medium">中</span></td>
+                                <td>-</td>
+                                <td><button class="btn-edit-row">✏️ 編集</button></td>
+                            </tr>
+                            <tr>
+                                <td>T1-02</td>
+                                <td>DB設計</td>
+                                <td><span class="status-badge status-progress">進行中</span></td>
+                                <td>第1段階</td>
+                                <td>16h</td>
+                                <td><span class="effort-badge effort-heavy">重</span></td>
+                                <td><span class="lock-indicator">🔒 田中太郎</span></td>
+                                <td><button class="btn-edit-row" style="opacity:0.4;cursor:not-allowed;" disabled>✏️ 編集</button></td>
+                            </tr>
+                            <tr>
+                                <td>T2-01</td>
+                                <td>UI実装</td>
+                                <td><span class="status-badge status-notstarted">未着手</span></td>
+                                <td>第2段階</td>
+                                <td>24h</td>
+                                <td><span class="effort-badge effort-heavy">重</span></td>
+                                <td>-</td>
+                                <td><button class="btn-edit-row">✏️ 編集</button></td>
+                            </tr>
+                            <tr>
+                                <td>T2-02</td>
+                                <td>API開発</td>
+                                <td><span class="status-badge status-notstarted">未着手</span></td>
+                                <td>第2段階</td>
+                                <td>20h</td>
+                                <td><span class="effort-badge effort-heavy">重</span></td>
+                                <td>-</td>
+                                <td><button class="btn-edit-row">✏️ 編集</button></td>
+                            </tr>
+                            <tr>
+                                <td>T3-01</td>
+                                <td>テスト計画</td>
+                                <td><span class="status-badge status-notstarted">未着手</span></td>
+                                <td>第3段階</td>
+                                <td>12h</td>
+                                <td><span class="effort-badge effort-medium">中</span></td>
+                                <td>-</td>
+                                <td><button class="btn-edit-row">✏️ 編集</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="margin-top:10px;font-size:12px;color:#6b7280;">
+                        ※ ロック中のタスクは編集ボタンが無効化されます（admin/editorのみ表示）
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <!-- TASK-02: タスク編集モーダル -->
-        <div class="screen-section">
-            <div class="screen-title">
-                <span class="screen-id">TASK-02</span>
-                タスク編集モーダル（フォーム入力 / JSON一括入力）
-            </div>
-            <p class="screen-description">パス: /tasks (modal) | 認証: 必須 | ロール制限: admin, editor</p>
-            
-            <div class="modal-overlay">
-                <div class="modal-frame">
-                    <div class="modal-header">
-                        <div class="modal-title">タスク編集</div>
-                        <button class="modal-close">×</button>
-                    </div>
-                    
-                    <!-- タブ -->
-                    <div class="modal-tabs">
-                        <button class="modal-tab active">📝 フォーム入力</button>
-                        <button class="modal-tab">📋 JSON一括入力</button>
-                    </div>
-                    
-                    <div class="modal-body">
-                        <!-- タブ1: フォーム入力 -->
-                        <div class="tab-content active">
-                            <div class="form-group">
-                                <label class="form-label">タスクコード</label>
-                                <input type="text" class="form-input form-readonly" value="T1-02" readonly>
-                                <div class="help-text">自動生成・変更不可</div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">タスク名<span class="required">*</span></label>
-                                <input type="text" class="form-input" value="DB設計">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">状態<span class="required">*</span></label>
-                                <select class="form-select">
-                                    <option>未着手</option>
-                                    <option selected>進行中</option>
-                                    <option>完了</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">フェーズ<span class="required">*</span></label>
-                                <input type="text" class="form-input" value="第1段階">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">工数（時間）<span class="required">*</span></label>
-                                <input type="number" class="form-input" value="16" step="0.01">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">工数レベル<span class="required">*</span></label>
-                                <div class="radio-group">
-                                    <div class="radio-option">
-                                        <input type="radio" name="effort" class="radio-input" id="light">
-                                        <label for="light" class="radio-label">軽</label>
-                                    </div>
-                                    <div class="radio-option">
-                                        <input type="radio" name="effort" class="radio-input" id="medium">
-                                        <label for="medium" class="radio-label">中</label>
-                                    </div>
-                                    <div class="radio-option">
-                                        <input type="radio" name="effort" class="radio-input" id="heavy" checked>
-                                        <label for="heavy" class="radio-label">重</label>
-                                    </div>
+
+        <div class="info-box">
+            <strong>機能要件:</strong>
+            <ul>
+                <li>全タスクをリアルタイムで表示</li>
+                <li>タスク行の「✏️ 編集」ボタンクリック → 編集モーダル表示（admin/editorのみ表示）</li>
+                <li>ロック中タスクの編集ボタンは無効化（グレーアウト）</li>
+                <li>Excel出力ボタン → タスク一覧をExcel形式でダウンロード</li>
+                <li>ロック状態の表示: 🔒アイコン + ユーザー名</li>
+                <li>ソート・フィルター機能（コード、タスク名、状態、フェーズでフィルター可能）</li>
+                <li>統計情報の自動算出とリアルタイム更新</li>
+                <li>円グラフでステータス別の完了率を可視化（Recharts使用）</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- TASK-02: タスク編集モーダル -->
+    <div class="screen-section">
+        <div class="screen-title">
+            <span class="screen-id">TASK-02</span>
+            タスク編集モーダル（フォーム入力 / JSON一括入力）
+        </div>
+        <p class="screen-description">パス: /tasks (modal) | 認証: 必須 | ロール制限: admin, editor</p>
+
+        <div class="modal-overlay">
+            <div class="modal-frame">
+                <div class="modal-header">
+                    <div class="modal-title">タスク編集</div>
+                    <button class="modal-close">×</button>
+                </div>
+
+                <div class="modal-tabs">
+                    <button class="modal-tab active">📝 フォーム入力</button>
+                    <button class="modal-tab">📋 JSON一括入力</button>
+                </div>
+
+                <div class="modal-body">
+                    <!-- タブ1: フォーム入力 -->
+                    <div class="tab-content active">
+                        <div class="form-group">
+                            <label class="form-label">タスクコード</label>
+                            <input type="text" class="form-input form-readonly" value="T1-02" readonly>
+                            <div class="help-text">自動生成・変更不可</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">タスク名<span class="required">*</span></label>
+                            <input type="text" class="form-input" value="DB設計">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">状態<span class="required">*</span></label>
+                            <select class="form-select">
+                                <option>未着手</option>
+                                <option selected>進行中</option>
+                                <option>完了</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">フェーズ<span class="required">*</span></label>
+                            <input type="text" class="form-input" value="第1段階">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">工数（時間）<span class="required">*</span></label>
+                            <input type="number" class="form-input" value="16" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">工数レベル<span class="required">*</span></label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" name="effort" class="radio-input" id="light">
+                                    <label for="light" class="radio-label">軽</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" name="effort" class="radio-input" id="medium">
+                                    <label for="medium" class="radio-label">中</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" name="effort" class="radio-input" id="heavy" checked>
+                                    <label for="heavy" class="radio-label">重</label>
                                 </div>
                             </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">詳細説明</label>
-                                <textarea class="form-textarea" placeholder="タスクの詳細を入力..."></textarea>
-                            </div>
                         </div>
-                        
-                        <!-- タブ2: JSON一括入力 -->
-                        <div class="tab-content">
-                            <div class="json-info">
-                                <strong>📌 JSON形式でタスクを一括入力</strong>
-                                複数のタスクを配列形式で入力することで、一度に複数タスクを作成・更新できます。
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">JSONデータ<span class="required">*</span></label>
-                                <textarea class="form-textarea form-textarea-code" placeholder='[
+                        <div class="form-group">
+                            <label class="form-label">詳細説明</label>
+                            <textarea class="form-textarea" placeholder="タスクの詳細を入力..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- タブ2: JSON一括入力 -->
+                    <div class="tab-content">
+                        <div class="json-info">
+                            <strong>📌 JSON形式でタスクを一括入力</strong>
+                            複数のタスクを配列形式で入力することで、一度に複数タスクを作成・更新できます。
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">JSONデータ<span class="required">*</span></label>
+                            <textarea class="form-textarea form-textarea-code" placeholder='[
   {
     "task_code": "T1-01",
     "name": "要件定義",
@@ -1020,25 +453,15 @@
     "effort_hours": 8,
     "effort_level": "中",
     "description": "要件を整理する"
-  },
-  {
-    "task_code": "T1-02",
-    "name": "DB設計",
-    "status": "進行中",
-    "phase": "第1段階",
-    "effort_hours": 16,
-    "effort_level": "重",
-    "description": "データベース構造を設計"
   }
 ]'></textarea>
-                                <div class="help-text">
-                                    ※ 配列形式で複数タスクを入力してください<br>
-                                    ※ effort_level は「軽」「中」「重」または「LIGHT」「MEDIUM」「HEAVY」<br>
-                                    ※ status は「未着手」「進行中」「完了」または「NOT_STARTED」「IN_PROGRESS」「COMPLETED」
-                                </div>
+                            <div class="help-text">
+                                ※ 配列形式で複数タスクを入力してください<br>
+                                ※ effort_level は「軽」「中」「重」または「LIGHT」「MEDIUM」「HEAVY」<br>
+                                ※ status は「未着手」「進行中」「完了」または「NOT_STARTED」「IN_PROGRESS」「COMPLETED」
                             </div>
-                            
-                            <div class="code-example">
+                        </div>
+                        <div class="code-example">
 <strong>JSONスキーマ例:</strong>
 [
   {
@@ -1051,200 +474,191 @@
     "description": "説明"     // 任意: 詳細説明
   }
 ]
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="modal-footer">
-                        <div class="modal-footer-left">
-                            <button class="btn-validate">バリデーション</button>
-                        </div>
-                        <div class="modal-footer-right">
-                            <button class="btn-cancel">キャンセル</button>
-                            <button class="btn-import">一括インポート</button>
-                            <button class="btn-save">保存</button>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="info-box">
-                <strong>操作フロー:</strong>
-                <ol style="margin: 10px 0 0 20px; color: #374151;">
-                    <li>タスク行ダブルクリック → lockTask() Server Action実行</li>
-                    <li>ロック成功 → モーダル表示 / ロック失敗 → エラートースト</li>
-                    <li>タブ選択: 「フォーム入力」または「JSON一括入力」</li>
-                    <li>フォーム入力: 個別フィールドを編集（リアルタイムバリデーション）</li>
-                    <li>JSON入力: JSON配列をペースト → バリデーションボタンで構文チェック</li>
-                    <li>保存クリック → クライアントバリデーション → updateTask() Server Action</li>
-                    <li>成功 → モーダル閉じる → 一覧再描画</li>
-                    <li>キャンセル/Esc → unlockTask() → モーダル閉じる</li>
-                </ol>
-                
-                <strong style="display: block; margin-top: 15px;">バリデーション:</strong>
-                <ul style="margin: 10px 0 0 20px; color: #374151;">
-                    <li>タスク名: 必須、1-200文字</li>
-                    <li>状態: 必須（未着手/進行中/完了）</li>
-                    <li>フェーズ: 必須、1-100文字</li>
-                    <li>工数: 必須、0.01-9999.99（小数点2桁）</li>
-                    <li>工数レベル: 必須（軽/中/重）</li>
-                    <li>詳細説明: 任意、0-5000文字</li>
-                    <li>JSON: 配列形式、スキーマ準拠、最大1000タスク</li>
-                </ul>
-            </div>
-        </div>
-        
-<!-- TASK-03: DBバックアップモーダル（NEW） --> 
- <div class="screen-section"> 
-     <div class="screen-title"> 
-         <span class="screen-id" style="background:#fef3c7;color:#92400e;">TASK-03</span> 
-         DBバックアップモーダル 
-         <span class="admin-only-badge" style="font-size:12px;padding:4px 10px;">adminのみ</span> 
-     </div> 
-     <p class="screen-description">パス: /tasks (modal) | 認証: 必須 | ロール制限: admin のみ | トリガー: ヘッダーの「DBバックアップ」ボタン</p> 
- 
-     <div class="backup-modal-overlay"> 
-         <div class="backup-modal-frame"> 
-             <div class="modal-header"> 
-                 <div class="modal-title">🗄️ DBバックアップ</div> 
-                 <button class="modal-close">×</button> 
-             </div> 
-             <div class="backup-modal-body"> 
- 
-                 <div style="font-size:14px;font-weight:600;color:#374151;margin-bottom:14px;">手動バックアップ</div> 
- 
-                 <div class="backup-item"> 
-                     <div class="backup-item-info"> 
-                         <div class="backup-item-label">📦 今すぐバックアップ</div> 
-                         <div class="backup-item-desc">現時点のDBをダンプしてダウンロード</div> 
-                     </div> 
-                     <button class="btn-download">⬇️ ダウンロード</button> 
-                 </div> 
- 
-                 <hr class="divider"> 
- 
-                 <div style="font-size:14px;font-weight:600;color:#374151;margin-bottom:14px;">自動バックアップ履歴（週次）</div> 
- 
-                 <div class="backup-item"> 
-                     <div class="backup-item-info"> 
-                         <div class="backup-item-label">backup_2026-02-16.sql</div> 
-                         <div class="backup-item-desc">2026-02-16 03:00 (JST) — 自動取得</div> 
-                     </div> 
-                     <button class="btn-download">⬇️ ダウンロード</button> 
-                 </div> 
- 
-                 <div class="backup-item"> 
-                     <div class="backup-item-info"> 
-                         <div class="backup-item-label">backup_2026-02-09.sql</div> 
-                         <div class="backup-item-desc">2026-02-09 03:00 (JST) — 自動取得</div> 
-                     </div> 
-                     <button class="btn-download">⬇️ ダウンロード</button> 
-                 </div> 
- 
-                 <div class="backup-item"> 
-                     <div class="backup-item-info"> 
-                         <div class="backup-item-label">backup_2026-02-02.sql</div> 
-                         <div class="backup-item-desc">2026-02-02 03:00 (JST) — 自動取得</div> 
-                     </div> 
-                     <button class="btn-download">⬇️ ダウンロード</button> 
-                 </div> 
- 
-                 <div class="backup-note" style="margin-top:16px;"> 
-                     📅 自動バックアップは毎週日曜 03:00 (JST) に Vercel Cron で実行されます。<br> 
-                     🗑️ バックアップファイルは 30日後 に自動削除されます。 
-                 </div> 
-             </div> 
-         </div> 
-     </div> 
- 
-     <div class="info-box"> 
-         <strong>機能要件:</strong> 
-         <ul> 
-             <li>管理者（admin）のみ表示・アクセス可能</li> 
-             <li>「今すぐバックアップ」→ dumpDB() Server Action実行 → SQLファイルをダウンロード</li> 
-             <li>自動バックアップ履歴を一覧表示（直近3件）</li> 
-             <li>各履歴からダウンロード可能</li> 
-             <li>自動バックアップ: 週次（Vercel Cron） / 保存期間: 30日</li> 
-             <li>ファイル形式: <code>.sql</code>（pg_dump 形式）</li> 
-             <li>Escキーまたは×ボタンで閉じる</li> 
-         </ul> 
-     </div> 
- </div>
-        
-        <!-- エラー画面 -->
-        <div class="screen-section">
-            <div class="screen-title">
-                🚨 エラー画面
-            </div>
-            <p class="screen-description">システムエラー時の表示画面</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px;">
-                <!-- 404 -->
-                <div style="border: 2px solid #e5e7eb; border-radius: 8px; padding: 60px 30px; text-align: center; background: white;">
-                    <div style="font-size: 48px; font-weight: bold; color: #3b82f6; margin-bottom: 10px;">404</div>
-                    <div style="font-size: 18px; color: #6b7280; margin-bottom: 30px;">ページが見つかりません</div>
-                    <button class="btn-primary" style="width: auto; padding: 12px 30px;">トップへ戻る</button>
-                </div>
-                
-                <!-- 500 -->
-                <div style="border: 2px solid #e5e7eb; border-radius: 8px; padding: 60px 30px; text-align: center; background: white;">
-                    <div style="font-size: 48px; font-weight: bold; color: #ef4444; margin-bottom: 10px;">500</div>
-                    <div style="font-size: 18px; color: #6b7280; margin-bottom: 30px;">サーバーエラーが発生しました</div>
-                    <button class="btn-primary" style="width: auto; padding: 12px 30px;">再読み込み</button>
-                </div>
-                
-                <!-- 403 -->
-                <div style="border: 2px solid #e5e7eb; border-radius: 8px; padding: 60px 30px; text-align: center; background: white;">
-                    <div style="font-size: 48px; font-weight: bold; color: #f59e0b; margin-bottom: 10px;">403</div>
-                    <div style="font-size: 18px; color: #6b7280; margin-bottom: 30px;">アクセス権限がありません</div>
-                    <button class="btn-primary" style="width: auto; padding: 12px 30px;">ログイン画面へ</button>
+
+                <!-- フッター：削除ボタン追加・一括インポート削除 -->
+                <div class="modal-footer">
+                    <div class="modal-footer-left">
+                        <button class="btn-delete">🗑️ 削除</button>
+                        <button class="btn-validate">バリデーション</button>
+                    </div>
+                    <div class="modal-footer-right">
+                        <button class="btn-cancel">キャンセル</button>
+                        <button class="btn-save">保存</button>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <!-- URL設計 -->
-        <div class="screen-section">
-            <div class="screen-title">
-                🔗 URL設計
-            </div>
-            
-            <table class="data-table" style="margin-top: 20px;">
-                <thead>
-                    <tr>
-                        <th>パス</th>
-                        <th>画面</th>
-                        <th>認証</th>
-                        <th>備考</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code>/</code></td>
-                        <td>リダイレクト</td>
-                        <td>-</td>
-                        <td>→ /tasks または /login</td>
-                    </tr>
-                    <tr>
-                        <td><code>/login</code></td>
-                        <td>AUTH-01</td>
-                        <td>不要</td>
-                        <td>認証済みは /tasks へ</td>
-                    </tr>
-                    <tr>
-                        <td><code>/tasks</code></td>
-                        <td>TASK-01</td>
-                        <td>必須</td>
-                        <td>タスク一覧（認証済みは直接表示）</td>
-                    </tr>
-                    <tr>
-                        <td><code>/tasks?edit={id}</code></td>
-                        <td>TASK-02</td>
-                        <td>必須</td>
-                        <td>編集モーダル（URL共有不可）</td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <div class="info-box">
+            <strong>操作フロー:</strong>
+            <ol style="margin:10px 0 0 20px;color:#374151;">
+                <li>タスク行の「✏️ 編集」ボタンクリック → lockTask() Server Action実行</li>
+                <li>ロック成功 → モーダル表示 / ロック失敗 → エラートースト</li>
+                <li>タブ選択: 「フォーム入力」または「JSON一括入力」</li>
+                <li>フォーム入力: 個別フィールドを編集（リアルタイムバリデーション）</li>
+                <li>JSON入力: JSON配列をペースト → バリデーションボタンで構文チェック</li>
+                <li>保存クリック → クライアントバリデーション → updateTask() Server Action</li>
+                <li><strong>削除クリック → 確認ダイアログ → deleteTask() Server Action → 一覧再描画</strong></li>
+                <li>成功 → モーダル閉じる → 一覧再描画</li>
+                <li>キャンセル/Esc → unlockTask() → モーダル閉じる</li>
+            </ol>
+
+            <strong style="display:block;margin-top:15px;">バリデーション:</strong>
+            <ul style="margin:10px 0 0 20px;color:#374151;">
+                <li>タスク名: 必須、1-200文字</li>
+                <li>状態: 必須（未着手/進行中/完了）</li>
+                <li>フェーズ: 必須、1-100文字</li>
+                <li>工数: 必須、0.01-9999.99（小数点2桁）</li>
+                <li>工数レベル: 必須（軽/中/重）</li>
+                <li>詳細説明: 任意、0-5000文字</li>
+                <li>JSON: 配列形式、スキーマ準拠、最大1000タスク</li>
+                <li>削除: 確認ダイアログで二重確認（操作は取り消し不可）</li>
+            </ul>
         </div>
     </div>
+
+    <!-- TASK-03: DBバックアップモーダル -->
+    <div class="screen-section">
+        <div class="screen-title">
+            <span class="screen-id" style="background:#fef3c7;color:#92400e;">TASK-03</span>
+            DBバックアップモーダル
+            <span class="admin-only-badge" style="font-size:12px;padding:4px 10px;">adminのみ</span>
+        </div>
+        <p class="screen-description">パス: /tasks (modal) | 認証: 必須 | ロール制限: admin のみ | トリガー: ヘッダーの「DBバックアップ」ボタン</p>
+
+        <div class="backup-modal-overlay">
+            <div class="backup-modal-frame">
+                <div class="modal-header">
+                    <div class="modal-title">🗄️ DBバックアップ</div>
+                    <button class="modal-close">×</button>
+                </div>
+                <div class="backup-modal-body">
+                    <div style="font-size:14px;font-weight:600;color:#374151;margin-bottom:14px;">手動バックアップ</div>
+                    <div class="backup-item">
+                        <div class="backup-item-info">
+                            <div class="backup-item-label">📦 今すぐバックアップ</div>
+                            <div class="backup-item-desc">現時点のDBをダンプしてダウンロード</div>
+                        </div>
+                        <button class="btn-download">⬇️ ダウンロード</button>
+                    </div>
+                    <hr class="divider">
+                    <div style="font-size:14px;font-weight:600;color:#374151;margin-bottom:14px;">自動バックアップ履歴（週次）</div>
+                    <div class="backup-item">
+                        <div class="backup-item-info">
+                            <div class="backup-item-label">backup_2026-02-16.sql</div>
+                            <div class="backup-item-desc">2026-02-16 03:00 (JST) — 自動取得</div>
+                        </div>
+                        <button class="btn-download">⬇️ ダウンロード</button>
+                    </div>
+                    <div class="backup-item">
+                        <div class="backup-item-info">
+                            <div class="backup-item-label">backup_2026-02-09.sql</div>
+                            <div class="backup-item-desc">2026-02-09 03:00 (JST) — 自動取得</div>
+                        </div>
+                        <button class="btn-download">⬇️ ダウンロード</button>
+                    </div>
+                    <div class="backup-item">
+                        <div class="backup-item-info">
+                            <div class="backup-item-label">backup_2026-02-02.sql</div>
+                            <div class="backup-item-desc">2026-02-02 03:00 (JST) — 自動取得</div>
+                        </div>
+                        <button class="btn-download">⬇️ ダウンロード</button>
+                    </div>
+                    <div class="backup-note" style="margin-top:16px;">
+                        📅 自動バックアップは毎週日曜 03:00 (JST) に Vercel Cron で実行されます。<br>
+                        🗑️ バックアップファイルは 30日後 に自動削除されます。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>機能要件:</strong>
+            <ul>
+                <li>管理者（admin）のみ表示・アクセス可能</li>
+                <li>「今すぐバックアップ」→ dumpDB() Server Action実行 → SQLファイルをダウンロード</li>
+                <li>自動バックアップ履歴を一覧表示（直近3件）</li>
+                <li>各履歴からダウンロード可能</li>
+                <li>自動バックアップ: 週次（Vercel Cron） / 保存期間: 30日</li>
+                <li>ファイル形式: <code>.sql</code>（pg_dump 形式）</li>
+                <li>Escキーまたは×ボタンで閉じる</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- エラー画面 -->
+    <div class="screen-section">
+        <div class="screen-title">🚨 エラー画面</div>
+        <p class="screen-description">システムエラー時の表示画面</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;margin-top:30px;">
+            <div style="border:2px solid #e5e7eb;border-radius:8px;padding:60px 30px;text-align:center;background:white;">
+                <div style="font-size:48px;font-weight:bold;color:#3b82f6;margin-bottom:10px;">404</div>
+                <div style="font-size:18px;color:#6b7280;margin-bottom:30px;">ページが見つかりません</div>
+                <button class="btn-primary" style="width:auto;padding:12px 30px;">トップへ戻る</button>
+            </div>
+            <div style="border:2px solid #e5e7eb;border-radius:8px;padding:60px 30px;text-align:center;background:white;">
+                <div style="font-size:48px;font-weight:bold;color:#ef4444;margin-bottom:10px;">500</div>
+                <div style="font-size:18px;color:#6b7280;margin-bottom:30px;">サーバーエラーが発生しました</div>
+                <button class="btn-primary" style="width:auto;padding:12px 30px;">再読み込み</button>
+            </div>
+            <div style="border:2px solid #e5e7eb;border-radius:8px;padding:60px 30px;text-align:center;background:white;">
+                <div style="font-size:48px;font-weight:bold;color:#f59e0b;margin-bottom:10px;">403</div>
+                <div style="font-size:18px;color:#6b7280;margin-bottom:30px;">アクセス権限がありません</div>
+                <button class="btn-primary" style="width:auto;padding:12px 30px;">ログイン画面へ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- URL設計 -->
+    <div class="screen-section">
+        <div class="screen-title">🔗 URL設計</div>
+        <table class="data-table" style="margin-top:20px;">
+            <thead>
+                <tr>
+                    <th>パス</th>
+                    <th>画面</th>
+                    <th>認証</th>
+                    <th>備考</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>/</code></td>
+                    <td>リダイレクト</td>
+                    <td>-</td>
+                    <td>→ /tasks または /login</td>
+                </tr>
+                <tr>
+                    <td><code>/login</code></td>
+                    <td>AUTH-01</td>
+                    <td>不要</td>
+                    <td>認証済みは /tasks へ</td>
+                </tr>
+                <tr>
+                    <td><code>/tasks</code></td>
+                    <td>TASK-01</td>
+                    <td>必須</td>
+                    <td>タスク一覧（認証済みは直接表示）</td>
+                </tr>
+                <tr>
+                    <td><code>/tasks?edit={id}</code></td>
+                    <td>TASK-02</td>
+                    <td>必須</td>
+                    <td>編集モーダル（URL共有不可）</td>
+                </tr>
+                <tr style="background:#fffbeb;">
+                    <td><code>/tasks?backup=true</code></td>
+                    <td>TASK-03</td>
+                    <td>必須</td>
+                    <td>バックアップモーダル（<span class="admin-only-badge">admin</span>のみ、URL共有不可）</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
 </body>
 </html>
