@@ -1089,6 +1089,83 @@
             </div>
         </div>
         
+<!-- TASK-03: DBバックアップモーダル（NEW） --> 
+ <div class="screen-section"> 
+     <div class="screen-title"> 
+         <span class="screen-id" style="background:#fef3c7;color:#92400e;">TASK-03</span> 
+         DBバックアップモーダル 
+         <span class="admin-only-badge" style="font-size:12px;padding:4px 10px;">adminのみ</span> 
+     </div> 
+     <p class="screen-description">パス: /tasks (modal) | 認証: 必須 | ロール制限: admin のみ | トリガー: ヘッダーの「DBバックアップ」ボタン</p> 
+ 
+     <div class="backup-modal-overlay"> 
+         <div class="backup-modal-frame"> 
+             <div class="modal-header"> 
+                 <div class="modal-title">🗄️ DBバックアップ</div> 
+                 <button class="modal-close">×</button> 
+             </div> 
+             <div class="backup-modal-body"> 
+ 
+                 <div style="font-size:14px;font-weight:600;color:#374151;margin-bottom:14px;">手動バックアップ</div> 
+ 
+                 <div class="backup-item"> 
+                     <div class="backup-item-info"> 
+                         <div class="backup-item-label">📦 今すぐバックアップ</div> 
+                         <div class="backup-item-desc">現時点のDBをダンプしてダウンロード</div> 
+                     </div> 
+                     <button class="btn-download">⬇️ ダウンロード</button> 
+                 </div> 
+ 
+                 <hr class="divider"> 
+ 
+                 <div style="font-size:14px;font-weight:600;color:#374151;margin-bottom:14px;">自動バックアップ履歴（週次）</div> 
+ 
+                 <div class="backup-item"> 
+                     <div class="backup-item-info"> 
+                         <div class="backup-item-label">backup_2026-02-16.sql</div> 
+                         <div class="backup-item-desc">2026-02-16 03:00 (JST) — 自動取得</div> 
+                     </div> 
+                     <button class="btn-download">⬇️ ダウンロード</button> 
+                 </div> 
+ 
+                 <div class="backup-item"> 
+                     <div class="backup-item-info"> 
+                         <div class="backup-item-label">backup_2026-02-09.sql</div> 
+                         <div class="backup-item-desc">2026-02-09 03:00 (JST) — 自動取得</div> 
+                     </div> 
+                     <button class="btn-download">⬇️ ダウンロード</button> 
+                 </div> 
+ 
+                 <div class="backup-item"> 
+                     <div class="backup-item-info"> 
+                         <div class="backup-item-label">backup_2026-02-02.sql</div> 
+                         <div class="backup-item-desc">2026-02-02 03:00 (JST) — 自動取得</div> 
+                     </div> 
+                     <button class="btn-download">⬇️ ダウンロード</button> 
+                 </div> 
+ 
+                 <div class="backup-note" style="margin-top:16px;"> 
+                     📅 自動バックアップは毎週日曜 03:00 (JST) に Vercel Cron で実行されます。<br> 
+                     🗑️ バックアップファイルは 30日後 に自動削除されます。 
+                 </div> 
+             </div> 
+         </div> 
+     </div> 
+ 
+     <div class="info-box"> 
+         <strong>機能要件:</strong> 
+         <ul> 
+             <li>管理者（admin）のみ表示・アクセス可能</li> 
+             <li>「今すぐバックアップ」→ dumpDB() Server Action実行 → SQLファイルをダウンロード</li> 
+             <li>自動バックアップ履歴を一覧表示（直近3件）</li> 
+             <li>各履歴からダウンロード可能</li> 
+             <li>自動バックアップ: 週次（Vercel Cron） / 保存期間: 30日</li> 
+             <li>ファイル形式: <code>.sql</code>（pg_dump 形式）</li> 
+             <li>Escキーまたは×ボタンで閉じる</li> 
+         </ul> 
+     </div> 
+ </div>
+        
         <!-- エラー画面 -->
         <div class="screen-section">
             <div class="screen-title">
