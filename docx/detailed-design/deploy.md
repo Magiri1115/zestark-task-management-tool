@@ -3,6 +3,7 @@
 ## 1. デプロイ概要
 
 ### 1.1 デプロイ先
+
 - **プラットフォーム**: Vercel
 - **リージョン**: iad1（米国東海岸）
 - **データベース**: Vercel Postgres
@@ -21,7 +22,7 @@
 │ Auto Deploy│
 └──────┬─────┘
        │
-       ├─→ Build (pnpm build)
+       ├─→ Build (Docker)
        ├─→ Prisma Generate
        ├─→ Migrate (production)
        └─→ Deploy
@@ -38,10 +39,9 @@
 
 ### 2.1 前提条件
 
-- [ ] GitHubアカウント
-- [ ] Vercelアカウント
-- [ ] Node.js 18以上インストール済み
-- [ ] pnpm インストール済み
+- [ ] Docker Desktop インストール済み
+- [ ] Docker Compose インストール済み
+- [ ] Vercel CLI インストール済み
 
 ### 2.2 Vercel CLIインストール
 
@@ -64,8 +64,8 @@ vercel --version
 git clone https://github.com/your-org/task-management-system.git
 cd task-management-system
 
-# 依存関係インストール
-pnpm install
+# Docker Composeでサービス起動
+docker compose up -d
 ```
 
 ### 3.2 環境変数設定
@@ -82,7 +82,7 @@ vim .env.local
 
 ```env
 # Database (ローカル開発用)
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/task_management_dev"
+DATABASE_URL="postgresql://postgres:postgres@db:5432/task_management_dev"
 
 # NextAuth
 NEXTAUTH_URL="http://localhost:3000"
@@ -97,23 +97,23 @@ NEXT_PUBLIC_APP_URL="http://localhost:3000"
 
 ```bash
 # Prisma生成
-pnpm prisma generate
+docker compose exec app pnpm prisma generate
 
 # マイグレーション実行
-pnpm prisma migrate dev --name init
+docker compose exec app pnpm prisma migrate dev --name init
 
 # シードデータ投入
-pnpm db:seed
+docker compose exec app pnpm db:seed
 
 # Prisma Studioで確認
-pnpm db:studio
+docker compose exec app pnpm db:studio
 ```
 
 ### 3.4 開発サーバー起動
 
 ```bash
 # 開発サーバー起動
-pnpm dev
+docker compose up
 
 # ブラウザでアクセス
 open http://localhost:3000
@@ -207,7 +207,7 @@ vercel env pull .env.local
 ```bash
 # コミット
 git add .
-git commit -m "Initial commit"
+# git commit -m "Initial commit"
 
 # mainブランチへプッシュ
 git push origin main
@@ -223,16 +223,6 @@ GitHubへのpush後、Vercelが自動的に以下を実行：
 4. Next.jsビルド (`next build`)
 5. デプロイ
 
-### 5.3 デプロイ状況確認
-
-```bash
-# CLIで確認
-vercel --prod
-
-# または Dashboard確認
-# https://vercel.com/your-team/task-management-system/deployments
-```
-
 ---
 
 ## 6. データベースマイグレーション（本番）
@@ -245,11 +235,11 @@ vercel env pull .env.production
 
 # 本番DBに接続してマイグレーション
 DATABASE_URL="$(grep DATABASE_URL .env.production | cut -d '=' -f2-)" \
-pnpm prisma migrate deploy
+docker compose exec app pnpm prisma migrate deploy
 
 # シードデータ投入（初回のみ）
 DATABASE_URL="$(grep DATABASE_URL .env.production | cut -d '=' -f2-)" \
-pnpm db:seed
+docker compose exec app pnpm db:seed
 ```
 
 ### 6.2 マイグレーション追加時
@@ -258,7 +248,7 @@ pnpm db:seed
 
 ```bash
 # 新しいマイグレーション作成
-pnpm prisma migrate dev --name add_new_column
+docker compose exec app pnpm prisma migrate dev --name add_new_column
 
 # コミット
 git add prisma/migrations/
@@ -271,7 +261,7 @@ git push origin main
 ```bash
 # 本番環境でマイグレーション実行
 DATABASE_URL="$(vercel env pull -y && grep DATABASE_URL .env.production | cut -d '=' -f2-)" \
-pnpm prisma migrate deploy
+docker compose exec app pnpm prisma migrate deploy
 ```
 
 または、Vercel Dashboardで手動実行：
@@ -280,7 +270,7 @@ pnpm prisma migrate deploy
 2. DATABASE_URLをコピー
 3. ローカルで実行：
    ```bash
-   DATABASE_URL="your-production-url" pnpm prisma migrate deploy
+   DATABASE_URL="your-production-url" docker compose exec app pnpm prisma migrate deploy
    ```
 
 ---
@@ -380,8 +370,8 @@ git checkout -b feature/new-feature
 
 # 変更をコミット
 git add .
-git commit -m "feat: add new feature"
-git push origin feature/new-feature
+# git commit -m "feat: add new feature"
+# git push origin feature/new-feature
 ```
 
 → Vercelが自動的にプレビューURLを生成
@@ -401,11 +391,11 @@ git push origin feature/new-feature
 ```bash
 # 以前のコミットに戻す
 git revert HEAD
-git push origin main
+# git push origin main
 
 # または特定のコミットに戻す
 git reset --hard <commit-hash>
-git push -f origin main
+# git push -f origin main
 ```
 
 ---
@@ -477,12 +467,12 @@ const nextConfig = {
     domains: ['your-domain.com'],
     formats: ['image/avif', 'image/webp']
   },
-  
+
   // コンパイル最適化
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production'
   },
-  
+
   // 静的生成ページ
   output: 'standalone'
 };
@@ -549,16 +539,16 @@ const nextConfig = {
 ```bash
 # 依存関係再インストール
 rm -rf node_modules .next
-pnpm install
-pnpm build
+docker compose exec app pnpm install
+docker compose exec app pnpm build
 ```
 
 #### 症状: "Prisma Client not generated"
 
 ```bash
 # Prisma再生成
-pnpm prisma generate
-pnpm build
+docker compose exec app pnpm prisma generate
+docker compose exec app pnpm build
 ```
 
 ### 15.2 データベース接続エラー
@@ -571,7 +561,7 @@ vercel env pull .env.production
 cat .env.production | grep DATABASE_URL
 
 # 接続テスト
-psql $DATABASE_URL -c "SELECT 1"
+docker compose exec app psql $DATABASE_URL -c "SELECT 1"
 ```
 
 ### 15.3 認証エラー
@@ -594,8 +584,8 @@ vercel env add NEXTAUTH_URL production
 
 ### 16.1 デプロイ前
 
-- [ ] ローカルでビルド成功 (`pnpm build`)
-- [ ] テスト全通過 (`pnpm test:all`)
+- [ ] ローカルでビルド成功 (`docker compose exec app pnpm build`)
+- [ ] テスト全通過 (`docker compose exec app pnpm test:all`)
 - [ ] 環境変数が正しく設定されている
 - [ ] マイグレーションファイルがコミット済み
 - [ ] `.env.local` が `.gitignore` に含まれている
@@ -641,7 +631,7 @@ vercel env add NEXTAUTH_URL production
 
 2. **整合性チェック**
    ```bash
-   pnpm prisma db push
+   docker compose exec app pnpm prisma db push
    ```
 
 ---
@@ -650,22 +640,20 @@ vercel env add NEXTAUTH_URL production
 
 ```bash
 # ローカル開発
-pnpm dev                    # 開発サーバー起動
-pnpm build                  # ビルド
-pnpm start                  # 本番モード起動
-pnpm lint                   # Lint実行
+docker compose up -d  # サービス起動
+docker compose up      # 開発サーバー起動
 
 # データベース
-pnpm db:generate            # Prisma生成
-pnpm db:migrate             # マイグレーション
-pnpm db:seed                # シード投入
-pnpm db:studio              # Prisma Studio
+docker compose exec app pnpm prisma generate
+docker compose exec app pnpm prisma migrate
+docker compose exec app pnpm db:seed
+docker compose exec app pnpm db:studio
 
 # テスト
-pnpm test                   # テスト実行
-pnpm test:unit              # 単体テスト
-pnpm test:e2e               # E2Eテスト
-pnpm test:all               # 全テスト
+docker compose exec app pnpm test
+docker compose exec app pnpm test:unit
+docker compose exec app pnpm test:e2e
+docker compose exec app pnpm test:all
 
 # Vercel
 vercel                      # プレビューデプロイ
@@ -676,3 +664,114 @@ vercel env ls               # 環境変数一覧
 ```
 
 ---
+
+## 19. Docker Compose 設定例
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/task_management_dev
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=your-secret-key-here
+      - NODE_ENV=development
+      - NEXT_PUBLIC_APP_URL=http://localhost:3000
+    depends_on:
+      - db
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=task_management_dev
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
+```
+
+---
+
+## 20. Dockerfile 設定例
+
+```dockerfile
+# Dockerfile
+FROM node:18-alpine
+
+# 作業ディレクトリ作成
+WORKDIR /app
+
+# 依存関係インストール
+COPY package.json pnpm-lock.yaml ./
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
+
+# ソースコードコピー
+COPY . ./
+
+# Prisma生成
+RUN pnpm prisma generate
+
+# ポート公開
+EXPOSE 3000
+
+# 開発サーバー起動
+CMD ["pnpm", "dev"]
+```
+
+---
+
+## 21. ローカルでの Docker 起動手順
+
+```bash
+# Docker Composeでサービス起動
+docker compose up -d
+
+# 開発サーバー起動
+docker compose up
+
+# ブラウザでアクセス
+open http://localhost:3000
+```
+
+---
+
+## 22. 本番デプロイ手順（Docker）
+
+### 22.1 Vercel での Docker デプロイ設定
+
+1. Vercel Dashboard → Settings → Environment → "Dockerfile" を指定
+2. `vercel.json` に以下の設定を追加
+
+```json
+{
+  "builds": [
+    {
+      "src": "Dockerfile",
+      "use": "docker"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)(\\/)?",
+      "dest": "/"
+    }
+  ]
+}
+```
+
+### 22.2 デプロイ実行
+
+```bash
+# Vercel CLI でデプロイ
+vercel --prod
+```
+
+---
+
