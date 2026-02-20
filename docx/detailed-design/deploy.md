@@ -699,30 +699,56 @@ volumes:
 
 ---
 
-## 20. Dockerfile 設定例
+## 20. Dockerfile 設定例 (マルチステージビルド)
+
+このプロジェクトでは、ビルド時間を短縮し、最終的なイメージサイズを最適化するためにマルチステージビルドを採用しています。
+
+### Dockerfile の構成
+
+*   **`base` ステージ**: 共通の Node.js 環境と pnpm の設定を行います。
+*   **`deps` ステージ**: `package.json` と `pnpm-lock.yaml` に基づいて依存関係をインストールします。このステージは、依存関係ファイルが変更された場合にのみ再実行されるため、キャッシュを効率的に利用できます。
+*   **`development` ステージ**: 開発環境用のイメージを構築します。ソースコードをコピーし、Prisma クライアントを生成し、開発サーバーを起動します。
+*   **`builder` ステージ**: 本番ビルド用のイメージを構築します。依存関係のインストール後、ソースコードをコピーし、Prisma クライアントを生成し、Next.js の本番ビルドを実行します。
+*   **`production` ステージ**: 最終的な本番環境用の軽量イメージを構築します。`builder` ステージで生成されたビルド成果物のみをコピーし、本番サーバーを起動します。
 
 ```dockerfile
-# Dockerfile
-FROM node:18-alpine
+# task-management-system/Dockerfile
 
-# 作業ディレクトリ作成
+FROM node:20-alpine AS base
+
+# pnpmインストール
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
 WORKDIR /app
 
 # 依存関係インストール
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
+FROM base AS deps
+COPY package.json pnpm-lock.yaml* ./
+RUN pnpm install --frozen-lockfile
 
-# ソースコードコピー
-COPY . ./
-
-# Prisma生成
+# 開発用
+FROM base AS development
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 RUN pnpm prisma generate
-
-# ポート公開
 EXPOSE 3000
-
-# 開発サーバー起動
 CMD ["pnpm", "dev"]
+
+# ビルド用
+FROM base AS builder
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN pnpm prisma generate
+RUN pnpm build
+
+# 本番用
+FROM base AS production
+ENV NODE_ENV=production
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
+EXPOSE 3000
+CMD ["node", "server.js"]
 ```
 
 ---
