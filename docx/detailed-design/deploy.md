@@ -75,7 +75,7 @@ pnpm install
 cp .env.example .env.local
 
 # .env.localを編集
-nano .env.local
+vim .env.local
 ```
 
 #### .env.local 内容
