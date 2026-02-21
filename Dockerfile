@@ -2,15 +2,13 @@
 
 FROM node:20-alpine AS base
 
+# OpenSSLを追加インストール
+RUN apk add --no-cache openssl openssl-dev libc6-compat
+
 # pnpmインストール
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
-
-    # PrismaのエンジンがAlpine Linuxで動作するために必要な依存関係をインストール
-    # openssl-dev: libsslの提供
-    # libc6-compat: glibc互換性レイヤー (Prismaのエンジンがglibcに依存する場合があるため)
-    RUN apk add --no-cache openssl-dev libc6-compat
 
 # 依存関係インストール
 FROM base AS deps
