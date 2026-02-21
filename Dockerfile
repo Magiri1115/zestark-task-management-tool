@@ -25,7 +25,9 @@ CMD ["pnpm", "dev"]
 
 # ビルド用
 FROM base AS builder
-COPY --from=deps /app/node_modules ./node_modules
+WORKDIR /app
+COPY package.json pnpm-lock.yaml* ./
+RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm prisma generate
 RUN pnpm build

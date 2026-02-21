@@ -5,9 +5,9 @@
 		"start": "next start",
 		"lint": "next lint",
 		"db:generate": "prisma generate",
-		"db:migrate":  "prisma migrate dev",
-		"db:seed":     "tsx prisma/seed.ts",
-		"db:studio":   "prisma studio"
+		"db:migrate": "prisma migrate dev",
+		"db:seed": "tsx prisma/seed.ts",
+		"db:studio": "prisma studio"
 	},
 	"prisma": {
 		"seed": "tsx prisma/seed.ts"
@@ -24,13 +24,20 @@
 		"recharts": "^3.7.0",
 		"sonner": "^2.0.7",
 		"vim": "^0.1.0",
-		"zod": "^4.3.6"
+		"zod": "^4.3.6",
+		"tailwindcss": "^3.4.1",
+		"postcss": "^8.4.38",
+		"autoprefixer": "^10.4.19"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.58.2",
 		"@types/bcryptjs": "^3.0.0",
+		"@types/node": "^25.3.0",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"next": "latest",
 		"tsx": "^4.21.0",
-		"vitest": "^4.0.18",
-        "next": "latest"
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.18"
 	}
 }
