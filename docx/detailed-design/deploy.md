@@ -23,14 +23,18 @@
 └──────┬─────┘
        │
        ├─→ Build (Docker)
-       ├─→ Prisma Generate
+       ├─→ Prisma Generate (Data Proxy URLを考慮)
        ├─→ Migrate (production)
        └─→ Deploy
               ↓
-       ┌────────────┐
-       │ Production │
-       │   Live     │
-       └────────────┘
+┌─────────────────────────────────────────┐
+│      Next.js App (Production)           │
+│  (Prisma Data Platform経由でDB接続)     │
+└─────────────────────────────────────────┘
+              ↓ ↑ (Prisma Data Platform / Accelerate)
+┌─────────────────────────────────────────┐
+│    PostgreSQL (Vercel Postgres)         │
+└─────────────────────────────────────────┘
 ```
 
 ---
@@ -70,6 +74,8 @@ docker compose up -d
 
 ### 3.2 環境変数設定
 
+ローカル開発環境では、Docker Composeで起動するローカルデータベースに直接接続します。
+
 ```bash
 # .env.exampleをコピー
 cp .env.example .env.local
@@ -81,7 +87,7 @@ vim .env.local
 #### .env.local 内容
 
 ```env
-# Database (ローカル開発用)
+# Database (ローカル開発用: Prisma Studioもこの設定を使用)
 DATABASE_URL="postgresql://postgres:postgres@db:5432/task_management_dev"
 
 # NextAuth
@@ -105,8 +111,9 @@ docker compose exec app pnpm prisma migrate dev --name init
 # シードデータ投入
 docker compose exec app pnpm db:seed
 
-# Prisma Studioで確認
-docker compose exec app pnpm db:studio
+# Prisma Studioでローカル開発用DBを確認
+# (ローカルの.env.localに設定されたDATABASE_URLを使用)
+docker compose exec app pnpm db:studio # ローカル開発用DBに接続
 ```
 
 ### 3.4 開発サーバー起動
@@ -159,6 +166,9 @@ vercel postgres create
 
 ### 4.3 環境変数設定
 
+Vercelにデプロイするアプリケーションは、Prisma Data PlatformのData Proxyを経由してデータベースに接続します。
+Prisma Data Platformでプロジェクトを作成し、Vercel Postgresを接続すると発行されるData Proxy URLを`DATABASE_URL`として設定してください。
+
 #### Vercel Dashboardで設定
 
 1. https://vercel.com/your-team/task-management-system/settings/environment-variables
@@ -166,7 +176,7 @@ vercel postgres create
 
 | キー | 値 | 環境 |
 |------|---|------|
-| DATABASE_URL | (Vercel Postgres自動設定) | Production, Preview |
+| DATABASE_URL | (Prisma Data Platformから取得したData Proxy URL) | Production, Preview |
 | NEXTAUTH_URL | https://your-domain.vercel.app | Production |
 | NEXTAUTH_URL | https://*-your-team.vercel.app | Preview |
 | NEXTAUTH_SECRET | (openssl rand -base64 32) | Production, Preview, Development |
@@ -175,6 +185,10 @@ vercel postgres create
 #### CLIで設定する場合
 
 ```bash
+# Prisma Data Platformから取得したData Proxy URLを設定
+vercel env add DATABASE_URL "prisma://accelerate.prisma-data.net/?api_key=YOUR_API_KEY&project=YOUR_PROJECT_ID" production
+vercel env add DATABASE_URL "prisma://accelerate.prisma-data.net/?api_key=YOUR_API_KEY&project=YOUR_PROJECT_ID" preview
+
 # NEXTAUTH_SECRET生成
 openssl rand -base64 32
 
@@ -233,13 +247,15 @@ GitHubへのpush後、Vercelが自動的に以下を実行：
 # 本番環境変数を取得
 vercel env pull .env.production
 
-# 本番DBに接続してマイグレーション
+# 本番DBに接続してマイグレーション (Prisma Data PlatformのData Proxy経由)
+# Vercelのデプロイプロセスで自動的に実行されるが、手動で実行する場合は以下
 DATABASE_URL="$(grep DATABASE_URL .env.production | cut -d '=' -f2-)" \
-docker compose exec app pnpm prisma migrate deploy
+pnpm prisma migrate deploy
 
 # シードデータ投入（初回のみ）
+# 注意: 本番環境でのシードデータ投入は慎重に行うこと。
 DATABASE_URL="$(grep DATABASE_URL .env.production | cut -d '=' -f2-)" \
-docker compose exec app pnpm db:seed
+pnpm db:seed
 ```
 
 ### 6.2 マイグレーション追加時
@@ -260,8 +276,9 @@ git push origin main
 
 ```bash
 # 本番環境でマイグレーション実行
+# Vercelのデプロイプロセスで自動的に実行されるが、手動で実行する場合は以下
 DATABASE_URL="$(vercel env pull -y && grep DATABASE_URL .env.production | cut -d '=' -f2-)" \
-docker compose exec app pnpm prisma migrate deploy
+pnpm prisma migrate deploy
 ```
 
 または、Vercel Dashboardで手動実行：
@@ -270,7 +287,7 @@ docker compose exec app pnpm prisma migrate deploy
 2. DATABASE_URLをコピー
 3. ローカルで実行：
    ```bash
-   DATABASE_URL="your-production-url" docker compose exec app pnpm prisma migrate deploy
+   DATABASE_URL="your-production-url" pnpm prisma migrate deploy
    ```
 
 ---
@@ -678,7 +695,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/task_management_dev
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/task_management_dev # ローカル開発用DBへの接続
       - NEXTAUTH_URL=http://localhost:3000
       - NEXTAUTH_SECRET=your-secret-key-here
       - NODE_ENV=development
@@ -738,7 +755,7 @@ CMD ["pnpm", "dev"]
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN pnpm prisma generate
+RUN pnpm prisma generate # 生成されたPrismaクライアントは、実行時にDATABASE_URL (本番ではData Proxy URL) を使用します
 RUN pnpm build
 
 # 本番用
