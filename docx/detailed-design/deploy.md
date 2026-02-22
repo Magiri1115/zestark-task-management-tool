@@ -747,7 +747,7 @@ RUN pnpm install --frozen-lockfile
 FROM base AS development
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN pnpm prisma generate # 生成されたPrismaクライアントは、実行時にDATABASE_URL (本番ではData Proxy URL) を使用します
+RUN pnpm prisma generate
 EXPOSE 3000
 CMD ["pnpm", "dev"]
 
