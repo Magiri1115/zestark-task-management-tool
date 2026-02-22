@@ -1,0 +1,66 @@
+# task-management-system/docker-compose.yml
+
+services:
+
+  # PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: task_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: task_management_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Next.js (frontend + backend)
+  app:
+    build:
+      context: .
+      target: development       # 本番時は production に変更
+    container_name: task_app
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/task_management_dev
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      NODE_ENV: development
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app                  # ホットリロード用
+      - /app/node_modules       # node_modulesはコンテナ側を使う
+      - /app/.next
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Prisma Studio（DB確認用・任意）
+  studio:
+    build:
+      context: .
+      target: development
+    container_name: task_studio
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/task_management_dev
+    ports:
+      - "5555:5555"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+    command: pnpm db:studio
+    profiles:
+      - studio                  # 通常起動時は除外、必要時のみ起動
+
+volumes:
+  postgres_data:
