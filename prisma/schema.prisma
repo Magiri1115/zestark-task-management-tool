@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  users User[]
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  name          String
+  password_hash String
+  role_id       Int
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  role          Role     @relation(fields: [role_id], references: [id])
+  locked_tasks  Task[]   @relation("LockedBy")
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  tasks       Task[]
+}
+
+enum TaskStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum EffortLevel {
+  LIGHT
+  MEDIUM
+  HEAVY
+}
+
+model Task {
+  id             String      @id @default(uuid())
+  project_id     String
+  task_code      String
+  name           String
+  status         TaskStatus  @default(NOT_STARTED)
+  phase          String
+  effort_hours   Decimal     @db.Decimal(10, 2)
+  effort_level   EffortLevel
+  description    String?
+  locked_by      String?
+  locked_at      DateTime?
+  created_at     DateTime    @default(now())
+  updated_at     DateTime    @updatedAt
+  project        Project     @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  locked_by_user User?       @relation("LockedBy", fields: [locked_by], references: [id])
+
+  @@unique([project_id, task_code])
+  @@index([project_id])
+  @@index([status])
+  @@index([project_id, status])
+}

@@ -55,6 +55,7 @@ typings/
 
 # dotenv environment variables file
 .env
+.env.example
 .env.test
 .env.production
 .env.local
@@ -79,3 +80,4 @@ Thumbs.db
 dist/
 build/
 out/
+.next
