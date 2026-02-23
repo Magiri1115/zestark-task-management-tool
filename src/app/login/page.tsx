@@ -1,6 +1,13 @@
 import styles from './page.module.css';
+import { useState } from 'react'; // useStateをインポート
 
 export default function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false); // パスワード表示状態を管理
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className={styles.loginContainer}>
       <div className={styles.loginFrame}>
@@ -20,13 +27,22 @@ export default function LoginPage() {
           <div className={styles.formGroup}>
             <label htmlFor="password" className={styles.formLabel}>Password</label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'} // showPasswordの状態に応じてtypeを変更
               id="password"
               name="password"
               className={styles.formInput}
               placeholder="••••••••"
               required
             />
+            <div className={styles.checkboxGroup}> {/* 新しいスタイルグループを追加 */}
+              <input
+                type="checkbox"
+                id="showPassword"
+                checked={!showPassword} // 初期値はチェックされている状態（マスク）
+                onChange={handleTogglePasswordVisibility}
+              />
+              <label htmlFor="showPassword" className={styles.checkboxLabel}>パスワードをマスク</label>
+            </div>
           </div>
           <button type="submit" className={styles.btnLogin}>
             ログイン

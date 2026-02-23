@@ -43,6 +43,7 @@
   border-radius: 0.6rem;
   font-size: 1.6rem;
   background: #f9fafb;
+  color: #1f2937; /* 文字色を濃くする */
 }
 
 .btnLogin {
@@ -60,4 +61,17 @@
 
 .btnLogin:hover {
   opacity: 0.9;
+}
+
+.checkboxGroup {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 0.5rem;
+}
+
+.checkboxLabel {
+  font-size: 1.4rem;
+  color: #374151;
+  cursor: pointer;
 }
