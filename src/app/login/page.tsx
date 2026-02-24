@@ -1,56 +1,26 @@
 "use client";
 
 import styles from './page.module.css';
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useState, Suspense } from 'react';
 import { signIn } from 'next-auth/react';
 
 function LoginContent() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isDevMode, setIsDevMode] = useState(false);
 
-  useEffect(() => {
-    const urlEmail = searchParams.get('email');
-    const urlPassword = searchParams.get('password');
-
-    if (urlEmail && urlPassword) {
-      setIsProcessing(true);
-      
-      // URLから情報を消去（履歴に残さないためreplaceを使用）
-      // パラメータを含まないパスに置き換える
-      router.replace('/login');
-
-      const autoLogin = async () => {
-        try {
-          const result = await signIn('credentials', {
-            redirect: false,
-            email: urlEmail,
-            password: urlPassword,
-          });
-
-          if (result?.error) {
-            setError('自動ログインに失敗しました。メールアドレスまたはパスワードが正しくありません。');
-            setIsProcessing(false);
-          } else {
-            // ログイン成功時はタスク一覧へ
-            window.location.href = '/tasks';
-          }
-        } catch (err) {
-          setError('予期せぬエラーが発生しました。');
-          setIsProcessing(false);
-        }
-      };
-      autoLogin();
-    }
-  }, [searchParams, router]);
+  const isDev = process.env.NODE_ENV === 'development';
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleQuickLogin = (e: string, p: string) => {
+    setEmail(e);
+    setPassword(p);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -79,10 +49,20 @@ function LoginContent() {
 
   return (
     <div className={styles.loginContainer}>
+      {/* 開発者モード切り替えボタン (開発環境のみ) */}
+      {isDev && (
+        <button 
+          type="button" 
+          className={`${styles.devModeToggle} ${isDevMode ? styles.devModeToggleActive : ''}`}
+          onClick={() => setIsDevMode(!isDevMode)}
+        >
+          {isDevMode ? 'Dev Mode: ON' : 'Dev Mode: OFF'}
+        </button>
+      )}
+
       <div className={styles.loginFrame}>
         <h1 className={styles.loginTitle}>タスク管理システム</h1>
         
-        {isProcessing && <p className={styles.processingMessage} style={{color: '#666', textAlign: 'center', marginBottom: '1rem'}}>処理中...</p>}
         {error && <p className={styles.errorMessage} style={{color: 'red', textAlign: 'center', marginBottom: '1rem'}}>{error}</p>}
         
         <form onSubmit={handleSubmit}>
@@ -128,6 +108,29 @@ function LoginContent() {
             {isProcessing ? 'ログイン中...' : 'ログイン'}
           </button>
         </form>
+
+        {/* 開発者用クイックログインパネル */}
+        {isDev && isDevMode && (
+          <div className={styles.devPanel}>
+            <p className={styles.devTitle}>Quick Login (Development Only)</p>
+            <div className={styles.devButtonGrid}>
+              <button 
+                type="button" 
+                className={styles.btnDev}
+                onClick={() => handleQuickLogin('admin@example.com', 'admin123')}
+              >
+                管理者
+              </button>
+              <button 
+                type="button" 
+                className={styles.btnDev}
+                onClick={() => handleQuickLogin('user@example.com', 'user123')}
+              >
+                一般ユーザー
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
