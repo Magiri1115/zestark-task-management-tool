@@ -1,0 +1,16 @@
+/* src/components/admin/BackupModal.module.css */
+.backupModalContent {
+  @apply space-y-4;
+}
+
+.messageSuccess {
+  @apply text-green-600;
+}
+
+.messageError {
+  @apply text-red-600;
+}
+
+.actions {
+  @apply flex justify-end;
+}
