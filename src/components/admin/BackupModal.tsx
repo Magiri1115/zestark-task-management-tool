@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Modal from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { backupDatabase } from '@/actions/admin.actions';
-import styles from './BackupModal.module.css';
 
 interface BackupModalProps {
   isOpen: boolean;
@@ -33,11 +32,11 @@ export default function BackupModal({ isOpen, onClose }: BackupModalProps) {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="DBバックアップ">
-      <div className={styles.backupModalContent}>
+      <div className="space-y-4">
         <p>データベースのバックアップを実行します。この操作は管理者のみ実行可能です。</p>
-        {message && <p className={styles.messageSuccess}>{message}</p>}
-        {error && <p className={styles.messageError}>{error}</p>}
-        <div className={styles.actions}>
+        {message && <p className="text-green-600">{message}</p>}
+        {error && <p className="text-red-600">{error}</p>}
+        <div className="flex justify-end">
           <Button
             onClick={handleBackup}
             variant="destructive"

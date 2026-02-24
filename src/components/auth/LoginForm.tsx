@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { signIn } from '@/lib/auth';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import styles from './LoginForm.module.css';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -35,20 +34,20 @@ export default function LoginForm() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.formContainer}>
-        <h2 className={styles.heading}>
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Sign in to your account
         </h2>
       </div>
 
-      <div className={styles.formWrapper}>
-        <form className={styles.form} onSubmit={handleSubmit}>
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="email" className={styles.label}>
+            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
               Email address
             </label>
-            <div className={styles.inputWrapper}>
+            <div className="mt-2">
               <Input
                 id="email"
                 name="email"
@@ -62,12 +61,12 @@ export default function LoginForm() {
           </div>
 
           <div>
-            <div className={styles.passwordLabelWrapper}>
-              <label htmlFor="password" className={styles.label}>
+            <div className="flex items-center justify-between">
+              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                 Password
               </label>
             </div>
-            <div className={styles.inputWrapper}>
+            <div className="mt-2">
               <Input
                 id="password"
                 name="password"
@@ -80,10 +79,10 @@ export default function LoginForm() {
             </div>
           </div>
 
-          {error && <p className={styles.error}>{error}</p>}
+          {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <div className={styles.buttonWrapper}>
-            <Button type="submit" className={styles.fullWidthButton}>
+          <div>
+            <Button type="submit" className="w-full">
               Sign in
             </Button>
           </div>
