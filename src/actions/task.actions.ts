@@ -118,9 +118,8 @@ export async function deleteTask(taskId: string) {
   await checkPermission(session.user.id, 'delete');
 
   // 論理削除（将来拡張用）
-  await prisma.task.update({
+  await prisma.task.delete({
     where: { id: taskId },
-    data: { deleted_at: new Date() }, // Assuming 'deleted_at' field exists in your schema
   });
 
   revalidatePath('/tasks');
