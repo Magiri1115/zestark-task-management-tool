@@ -3,7 +3,7 @@
 FROM node:20-alpine AS base
 
 # OpenSSLを追加インストール
-RUN apk add --no-cache openssl openssl-dev libc6-compat
+RUN apk add --no-cache openssl openssl-dev libc6-compat postgresql-client
 
 # pnpmインストール
 RUN corepack enable && corepack prepare pnpm@latest --activate
