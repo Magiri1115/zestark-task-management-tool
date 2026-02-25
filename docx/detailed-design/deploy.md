@@ -4,12 +4,13 @@
 
 ### 1.1 デプロイ先
 
-- **プラットフォーム**: Vercel
+- **プラットフォーム**: Vercel / GitHub Container Registry (GHCR)
 - **リージョン**: iad1（米国東海岸）
 - **データベース**: Vercel Postgres
 
 ### 1.2 デプロイフロー
 
+#### Vercel (Auto Deploy)
 ```
 ┌────────────┐
 │   GitHub   │
@@ -33,9 +34,36 @@
        └────────────┘
 ```
 
+#### GitHub Container Registry (GHCR)
+`main` ブランチへのプッシュにより、自動的に Docker イメージがビルドされ GHCR に公開されます。これにより、ビルド済みの状態（`node_modules` や `.next` を含む）をどこからでも呼び出すことが可能です。
+
 ---
 
-## 2. 初回セットアップ
+## 2. GitHub Packages (GHCR) の利用方法
+
+### 2.1 パッケージの取得と実行
+
+ビルド済みの最新イメージを取得してローカルで実行するコマンドです。
+
+```bash
+# 1. GitHub Container Registry にログイン (初回のみ)
+# ※ 個人アクセストークン (PAT) が必要です
+export CR_PAT=YOUR_TOKEN
+echo $CR_PAT | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin
+
+# 2. 最新のイメージをプル（呼び出し）
+docker pull ghcr.io/YOUR_GITHUB_USERNAME/zestark-task-management-tool:main
+
+# 3. コンテナを起動
+docker run -p 3000:3000 \
+  -e DATABASE_URL="your_database_url" \
+  -e NEXTAUTH_SECRET="your_secret" \
+  ghcr.io/YOUR_GITHUB_USERNAME/zestark-task-management-tool:main
+```
+
+---
+
+## 3. 初回セットアップ
 
 ### 2.1 前提条件
 
