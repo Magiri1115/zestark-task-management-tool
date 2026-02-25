@@ -1,0 +1,52 @@
+.button {
+  padding: 1rem 2rem;
+  border-radius: 0.6rem;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.button:hover {
+  opacity: 0.9;
+}
+
+.primary {
+  background: #3b82f6;
+  color: white;
+  border: none;
+}
+
+.secondary {
+  background: white;
+  border: 2px solid #d1d5db;
+  color: #374151;
+}
+
+.backup {
+  background: white;
+  border: 2px solid #fcd34d;
+  color: #92400e;
+}
+
+.editRow {
+  padding: 0.6rem 1.4rem;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1.5px solid #bfdbfe;
+  font-size: 1.2rem;
+}
+
+.adminOnlyBadge {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.4rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: 1px solid #fcd34d;
+}

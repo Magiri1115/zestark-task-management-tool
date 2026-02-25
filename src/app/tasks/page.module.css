@@ -1,0 +1,104 @@
+.container {
+  max-width: 140rem;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.taskFrame {
+  border: 2px solid #e5e7eb;
+  border-radius: 0.8rem;
+  background: #ffffff;
+  min-height: 80rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.taskHeader {
+  background: #f9fafb;
+  padding: 2rem 3rem;
+  border-bottom: 2px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.taskHeaderTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.taskHeaderActions {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+
+
+.taskContent {
+  padding: 3rem;
+}
+
+
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.5rem;
+}
+
+.statItem {
+  color: #6b7280;
+  font-size: 1.4rem;
+}
+
+.statValue {
+  font-weight: 600;
+  color: #111827;
+}
+
+
+
+.tableContainer {
+  margin-top: 3rem;
+}
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #e5e7eb;
+}
+
+.dataTable thead {
+  background: #f9fafb;
+}
+
+.dataTable th {
+  padding: 1.2rem 1.6rem;
+  text-align: left;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.dataTable td {
+  padding: 1.4rem 1.6rem;
+  font-size: 1.4rem;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: middle;
+}
+
+.dataTable tbody tr:hover {
+  background: #f9fafb;
+}
+
+
+
+.lockIndicator {
+  color: #6b7280;
+  font-size: 1.2rem;
+}
+
+
