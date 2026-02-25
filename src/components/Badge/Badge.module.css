@@ -1,0 +1,43 @@
+.badge {
+  display: inline-block;
+  padding: 0.4rem 1.2rem;
+  border-radius: 1.2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.statusCompleted {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.statusProgress {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.statusNotstarted {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.effortBadge {
+  padding: 0.4rem 1rem;
+  border-radius: 0.8rem;
+}
+
+.effortLight {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.effortMedium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.effortHeavy {
+  background: #fee2e2;
+  color: #991b1b;
+}
